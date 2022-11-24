@@ -164,5 +164,6 @@ const CustomLink = styled(Link)`
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
+  color: rgb(0 126 255);
 `;
 

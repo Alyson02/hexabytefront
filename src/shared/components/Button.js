@@ -1,7 +1,7 @@
 const { default: styled } = require("styled-components");
 
 const Button = styled.button`
-  background: #FFFFFF;
+  background: rgb(0 126 255);;
   border-radius: 5px;
   height: 46px;
   outline: none;
@@ -13,7 +13,7 @@ const Button = styled.button`
   font-weight: 700;
   font-size: 20px;
   line-height: 23px;
-  color: #000000;
+  color: #fff;
 `;
 
 export default Button;
