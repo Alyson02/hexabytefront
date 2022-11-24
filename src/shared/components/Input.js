@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Input = styled.input`
   background: #ffffff;
   border-radius: 5px;
-  border: none;
+  border: ${(props) => props.err==undefined? "" : "solid 2px red"};
   outline: none;
   height: 58px;
   padding-left: 15px;

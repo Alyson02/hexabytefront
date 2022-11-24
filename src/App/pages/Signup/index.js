@@ -67,10 +67,12 @@ export default function Signup() {
       <TextLogo>Hexabyte</TextLogo>
       <Form onSubmit={handleSubmit(submit)}>
         <Input onChange={(e) => setName(e.target.value)} placeholder="Nome" 
-        {...register("Erro nome", {
+        {...register("erronome", {
           required: "Campo obrigatório"
-        })}/>
-         <ErrorMessage errors={errors} name="Erro nome" as="p" />
+        })}
+        err = {errors.erronome}
+        />
+         <ErrorMessage errors={errors} name="erronome" as="p" />
         <Input
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail"
@@ -81,6 +83,8 @@ export default function Signup() {
                 message: 'Favor inserir um email válido',
             },
           })}
+          err = {errors.email}
+
         />
                       <ErrorMessage errors={errors} name="email" as="p" />
 
@@ -88,31 +92,33 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value) }
           placeholder="Senha"
           name= "password"
-          {...register("Erro senha", {
+          {...register("errosenha", {
             required: "Campo obrigatório"
           })}
           type="password"
-          
+          err = {errors.errosenha}
+
         />
-                <ErrorMessage errors={errors} name="Erro senha" as="p" />
+                <ErrorMessage errors={errors} name="errosenha" as="p" />
 
         <Input
           onChange={(e) => {
             setConfirmPassword(e.target.value);
           
           }}
-          {...register("Erro confirma", {
+          {...register("erroconfirma", {
             required: "Campo obrigatório",
             validate: (abc = confirmPassword) => {
-              console.log(watch("Erro senha"))
-              if (watch("Erro senha") != abc) {
+              if (watch("errosenha") != abc) {
                 return "Senhas não coincidem";
               }}
           })}
           placeholder="Confirme a senha"
           type="password"
+          err = {errors.erroconfirma}
+
         />
-        <ErrorMessage errors={errors} name="Erro confirma" as="p" />
+        <ErrorMessage errors={errors} name="erroconfirma" as="p" />
 
         <Button>Cadastrar</Button>
 

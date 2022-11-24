@@ -29,10 +29,11 @@ export default function Login() {
   shouldUseNativeValidation: false,
   delayError: undefined});
   const auth = useAuth();
+  console.log(errors)
 
   function onFinish(e) {
     setLoading(true);
-
+    console.log(errors.errosenha)
     auth
       .authenticate(email, password)
       .then(() => {
@@ -66,6 +67,8 @@ export default function Login() {
                 message: 'Favor inserir um email válido',
             },
           })}
+          err = {errors.email}
+
           
                 
         />
@@ -77,11 +80,13 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Senha"
           type="password"
-          {...register("Erro senha", {
-            required: "Campo obrigatório"
+          err = {errors.errosenha}
+          
+          {...register("errosenha", {
+            required: `Campo obrigatório`
           })}
         />
-        <ErrorMessage errors={errors} name="Erro senha" as="p" />
+        <ErrorMessage errors={errors} name="errosenha" as="p" />
       
         
         <Button>Entrar</Button>
