@@ -5,11 +5,11 @@ export default function Loader({ loading }) {
     <ThreeDots
       height="40"
       width="40"
-      color="#58008D"
+      color="rgb(0 126 255)"
       ariaLabel="tail-spin-loading"
       radius="1"
       wrapperStyle={{
-        position: "absolute",
+        position: "fixed",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
