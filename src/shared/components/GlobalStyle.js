@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	background-color: rgb(42 42 42);
+	font-family: "Raleway";
 }
 ol, ul {
 	list-style: none;

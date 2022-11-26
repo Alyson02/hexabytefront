@@ -15,11 +15,12 @@ export function getUserLocalStorage() {
   return user ?? null;
 }
 
-export async function LoginRequest(email, password) {
+export async function LoginRequest(email, senha) {
   try {
+    console.log(email, "Fazendo login com o email")
     const request = Api.post("signin", {
       email,
-      password,
+      senha,
     });
     return request;
   } catch (error) {
