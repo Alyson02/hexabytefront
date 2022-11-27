@@ -38,14 +38,16 @@ export default function Login() {
     setLoading(true);
     auth
       .authenticate(watchEmail, watchSenha)
-      .then(() => {
+      .then((res) => {
         setLoading(false);
         navigate("/");
+        console.log(res.data)
       })
       .catch((err) => {
         if (err) {
           swal("Ops", "Usuário ou senha inválidos!", "error");
           setLoading(false);
+          console.log(err)
         }
       });
   }

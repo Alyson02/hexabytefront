@@ -18,7 +18,7 @@ export function getUserLocalStorage() {
 export async function LoginRequest(email, senha) {
   try {
     console.log(email, "Fazendo login com o email")
-    const request = Api.post("signin", {
+    const request = Api.post("/signin", {
       email,
       senha,
     });

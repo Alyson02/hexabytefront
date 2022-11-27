@@ -1,19 +1,28 @@
 import React from "react";
-import { FaTimes, FaUserAlt } from "react-icons/fa";
-import { BsHouseDoor } from "react-icons/bs";
+import { FaTimes} from "react-icons/fa";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
+import { sideicons } from "./Sidebaricons";
+import Home from "App/pages/Home";
+import { useNavigate } from "react-router-dom";
+import { siteContext } from "context/HomeContext/siteContext";
+import {useState} from "react";
 
-const Sidebar = ({ active }) => {
+  const Sidebar = ({ active }) => {
+  const Navigate = useNavigate()
+
+  const icons = sideicons
   const closeSidebar = () => {
     active(false);
   };
+
+ 
 
   return (
     <Container sidebar={active}>
       <FaTimes onClick={closeSidebar} />
       <Content>
-        <SidebarItem Icon={BsHouseDoor} Text="Home" />
+      {icons.map((icone) => <SidebarItem Text= {icone.name} Icon= {icone.icon} fecha = {closeSidebar}/>)}       
       </Content>
     </Container>
   );

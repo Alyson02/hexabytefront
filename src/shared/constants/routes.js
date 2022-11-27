@@ -1,7 +1,7 @@
 export default Object.freeze({
   HOME: {
     name: "home",
-    route: "/",
+    route: "/?page=1",
   },
   MOVEMENT: {
     name: "addMovement",

@@ -1,39 +1,73 @@
 import { useAuth } from "context/AuthProvider/useAuth";
+import { useContext } from "react";
+import { siteContext } from "context/HomeContext/siteContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "services/api";
 import useWindowDimensions from "shared/components/getWindowDimensions";
 import Loader from "shared/components/Loader";
 import styled from "styled-components";
+import Header from "shared/components/Header/Header.js";
 
 export default function Home() {
   const auth = useAuth();
+  const { categoria, setCategoria , page, setPage, search, setSearch, id, setId} = useContext(siteContext)
   const navigate = useNavigate();
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
   const { width } = useWindowDimensions();
 
   useEffect(() => {
     setLoading(true);
-    Api.get(`/?page=${page}`).then((r) => {
+    if(categoria && categoria != "Home"){
+      Api.get(`/?page=${page}&categoria=${categoria}`).then((r) => {
+        console.log(r.data.length)        
+        setProdutos(r.data);
+        console.log(produtos)
+        setLoading(false);
+      });
+    }
+    if(categoria && categoria !="Home" && search)
+    Api.get(`/?page=${page}&categoria=${categoria}&search=${search}`).then((r) => {
+      console.log(r.data.length)
       setProdutos(r.data);
+      console.log(produtos)
       setLoading(false);
+      
     });
-  }, [page]);
+    if(categoria == "Home"){
+      Api.get(`/?page=1`).then((r) => {
+        console.log(r.data.length)
+        setLoading(false);
+        setProdutos(r.data);
+        setPage(1)
+        setCategoria("")
+        console.log(produtos)
+        
+    })
+  }
+    if(!categoria && !search){
+      Api.get(`/?page=${page}`).then((r) => {
+        setProdutos(r.data)
+        setLoading(false);
+        console.log(r.data.length)
+        
+    }).catch((err) => console.log(err))}
+}, [page, categoria]);
 
   return (
     <>
+      <Header/>
       <Loader loading={loading} />
       <FlexContainer>
-        {produtos.map((p) => (
+        {produtos.length>0?produtos.map((p) => (
           <FlexItem w={width} key={p._id}>
-            <ImagemProduto src={p.imagemUrl} />
+            <ImagemProduto src={p.imagem} />
             <TituloProduto>{p.titulo}</TituloProduto>
-            <PrecoProduto>R$ {p.preco}</PrecoProduto>
+            <PrecoProduto>R$ {p.valor}</PrecoProduto>
             <BotaoProduto>COMPRAR</BotaoProduto>
           </FlexItem>
-        ))}
+        )): "Não há mais produtos a serem mostrados"}
       </FlexContainer>
       {produtos.length > 0 && (
         <BotaoProximaPagina

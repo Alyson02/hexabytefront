@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
       const payload = r.data;
       setUser(payload);
       setUserLocalStorage(payload);
-    });
+    }).catch((err) => console.log(err));
     return response;
   }
 

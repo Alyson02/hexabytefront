@@ -5,13 +5,17 @@ import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Input from "../Input";
 import useWindowDimensions from "../getWindowDimensions";
+import { useContext } from "react";
+import { siteContext } from "context/HomeContext/siteContext";
 
 export default function Header() {
   const auth = useAuth();
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
   const { width } = useWindowDimensions();
+  const { categoria, search, setSearch } = useContext(siteContext)
 
+  console.log(categoria)
   return (
     <Container>
       <HeaderWrapper>
@@ -26,15 +30,19 @@ export default function Header() {
         </HeaderLeft>
         {width >= 998 && (
           <Search>
-            <FaSearch size={"2em"} />
-            <Input />
+            <FaSearch size={"2em"}  />
+            <Input 
+              placeholder = {categoria? `Pesquisar em ${categoria}`: "Pesquisar"} 
+              value={search}
+              onChange={ e => setSearch(e.target.value)}
+              />
           </Search>
         )}
         {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
       </HeaderWrapper>
       {width < 998 && (
         <SearchMobile>
-          <InputSearchMobile fixPlaceHolder={sideBar} placeholder="Pesquisar" />
+          <InputSearchMobile fixPlaceHolder={sideBar}   />
         </SearchMobile>
       )}
     </Container>
@@ -91,7 +99,7 @@ const InputSearchMobile = styled.input`
   border: none;
   padding: 20px 10px;
   width: 100%;
-  background: rgb(42 42 42);
+  background: rgb(255 255 255);
 
   ::placeholder {
     font-style: normal;

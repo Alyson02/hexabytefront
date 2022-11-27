@@ -7,6 +7,7 @@ import Loader from "shared/components/Loader";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import swal from "sweetalert";
 
 
 
@@ -42,15 +43,18 @@ export default function Signup() {
 
     const body = {
       name,
-      password,
       email,
-    };
+      password,
+      confirmPassword
 
+    };
+    console.log(error)
     setLoading(true);
 
     auth
       .signup(body)
       .then(() => {
+        swal("", "Cadastro efetuado! Faça Login.", "success")
         navigate("/");
         setLoading(false);
       })
