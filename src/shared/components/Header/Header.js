@@ -7,13 +7,16 @@ import Input from "../Input";
 import useWindowDimensions from "../getWindowDimensions";
 import { useContext } from "react";
 import { siteContext } from "context/HomeContext/siteContext";
+import { BsCart } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
-export default function Header() {
+export default function Header({ itensCart }) {
   const auth = useAuth();
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
   const { width } = useWindowDimensions();
   const { categoria, search, setSearch } = useContext(siteContext)
+  const navigate = useNavigate();
 
   console.log(categoria)
   return (
@@ -26,19 +29,23 @@ export default function Header() {
               <Sidebar active={setSidebar} />
             </Test>
           )}
-          <TextLogo>Hexabyte</TextLogo>
+          <TextLogo onClick={() => navigate("/")}>Hexabyte</TextLogo>
         </HeaderLeft>
         {width >= 998 && (
           <Search>
-            <FaSearch size={"2em"}  />
+            <FaSearch size={"1.2em"}  />
             <Input 
               placeholder = {categoria? `Pesquisar em ${categoria}`: "Pesquisar"} 
               value={search}
               onChange={ e => setSearch(e.target.value)}
-              />
+             Search />
           </Search>
         )}
-        {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
+        <HeaderRight>
+          {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
+          <BsCart onClick={() => navigate("/cart")} size={"1.5em"} />
+          <span style={{ fontFamily: "Arial" }}>{itensCart}</span>
+        </HeaderRight>
       </HeaderWrapper>
       {width < 998 && (
         <SearchMobile>
@@ -78,7 +85,7 @@ const HeaderLeft = styled.div`
 `;
 
 const Search = styled.form`
-  width: 600px;
+  width: 500px;
   position: relative;
 
   > svg {
@@ -139,4 +146,14 @@ const Test = styled.div`
 
 const A = styled.a`
   padding-left: 8px;
+`;
+
+const HeaderRight = styled.div`
+  display: flex;
+  gap: 18px;
+  align-items: center;
+`;
+
+const InputSearch = styled(Input)`
+  height: 40px;
 `;

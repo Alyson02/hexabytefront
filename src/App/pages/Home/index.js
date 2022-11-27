@@ -2,7 +2,7 @@ import { useAuth } from "context/AuthProvider/useAuth";
 import { useContext } from "react";
 import { siteContext } from "context/HomeContext/siteContext";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Api } from "services/api";
 import useWindowDimensions from "shared/components/getWindowDimensions";
 import Loader from "shared/components/Loader";
@@ -16,6 +16,8 @@ export default function Home() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { width } = useWindowDimensions();
+
+  const { itensCart, setItensCart } = useOutletContext();
 
   useEffect(() => {
     setLoading(true);
@@ -55,6 +57,15 @@ export default function Home() {
     }).catch((err) => console.log(err))}
 }, [page, categoria]);
 
+  function createOrAddCart(id) {
+    setItensCart(itensCart + 1);
+    Api.post("/cart")
+      .then(() => {
+        Api.post("/cart/addproduct", { products: [id] });
+      })
+      .then((x) => console.log(x));
+  }
+
   return (
     <>
       <Header/>
@@ -65,7 +76,9 @@ export default function Home() {
             <ImagemProduto src={p.imagem} />
             <TituloProduto>{p.titulo}</TituloProduto>
             <PrecoProduto>R$ {p.valor}</PrecoProduto>
-            <BotaoProduto>COMPRAR</BotaoProduto>
+            <BotaoProduto onClick={() => createOrAddCart(p._id)}>
+              COMPRAR
+            </BotaoProduto>
           </FlexItem>
         )): "Não há mais produtos a serem mostrados"}
       </FlexContainer>
@@ -83,16 +96,30 @@ export default function Home() {
 
 const FlexContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 10px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Screen larger than 900px? 3 columns */
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
-const FlexItem = styled.div`
-  flex-grow: 1;
-`;
+const FlexItem = styled.div``;
 
 const ImagemProduto = styled.img`
-  max-height: 316px;
+  min-height: 223px;
   width: 100%;
   object-fit: cover;
   border-radius: 5px;
