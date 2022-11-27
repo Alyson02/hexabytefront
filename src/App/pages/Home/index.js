@@ -39,7 +39,7 @@ export default function Home() {
       <FlexContainer>
         {produtos.map((p) => (
           <FlexItem w={width} key={p._id}>
-            <ImagemProduto src={p.imagemUrl} />
+            <ImagemProduto src={p.imagem} />
             <TituloProduto>{p.titulo}</TituloProduto>
             <PrecoProduto>R$ {p.preco}</PrecoProduto>
             <BotaoProduto onClick={() => createOrAddCart(p._id)}>
@@ -62,14 +62,30 @@ export default function Home() {
 
 const FlexContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 10px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Screen larger than 900px? 3 columns */
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 const FlexItem = styled.div``;
 
 const ImagemProduto = styled.img`
-  max-height: 316px;
+  min-height: 223px;
   width: 100%;
   object-fit: cover;
   border-radius: 5px;

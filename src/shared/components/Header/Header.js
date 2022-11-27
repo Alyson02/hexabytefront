@@ -6,12 +6,14 @@ import Sidebar from "./components/Sidebar";
 import Input from "../Input";
 import useWindowDimensions from "../getWindowDimensions";
 import { BsCart } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export default function Header({ itensCart }) {
   const auth = useAuth();
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
   const { width } = useWindowDimensions();
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -23,17 +25,17 @@ export default function Header({ itensCart }) {
               <Sidebar active={setSidebar} />
             </Test>
           )}
-          <TextLogo>Hexabyte</TextLogo>
+          <TextLogo onClick={() => navigate("/")}>Hexabyte</TextLogo>
         </HeaderLeft>
         {width >= 998 && (
           <Search>
-            <FaSearch size={"2em"} />
-            <Input />
+            <FaSearch size={"1.2em"} />
+            <InputSearch />
           </Search>
         )}
         <HeaderRight>
           {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
-          <BsCart size={"1.5em"} />
+          <BsCart onClick={() => navigate("/cart")} size={"1.5em"} />
           <span style={{ fontFamily: "Arial" }}>{itensCart}</span>
         </HeaderRight>
       </HeaderWrapper>
@@ -75,7 +77,7 @@ const HeaderLeft = styled.div`
 `;
 
 const Search = styled.form`
-  width: 600px;
+  width: 500px;
   position: relative;
 
   > svg {
@@ -142,4 +144,8 @@ const HeaderRight = styled.div`
   display: flex;
   gap: 18px;
   align-items: center;
+`;
+
+const InputSearch = styled(Input)`
+  height: 40px;
 `;

@@ -3,8 +3,8 @@ export default Object.freeze({
     name: "home",
     route: "/",
   },
-  MOVEMENT: {
-    name: "addMovement",
-    route: "/addMovement",
+  CART: {
+    name: "cart",
+    route: "/cart",
   },
 });

@@ -3,17 +3,22 @@ import { FaTimes, FaUserAlt } from "react-icons/fa";
 import { BsHouseDoor } from "react-icons/bs";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ active }) => {
   const closeSidebar = () => {
     active(false);
   };
 
+  const navigate = useNavigate();
+
   return (
     <Container sidebar={active}>
       <FaTimes onClick={closeSidebar} />
       <Content>
-        <SidebarItem Icon={BsHouseDoor} Text="Home" />
+        <div onClick={() => navigate("/")}>
+          <SidebarItem Icon={BsHouseDoor} Text="Home" />
+        </div>
       </Content>
     </Container>
   );

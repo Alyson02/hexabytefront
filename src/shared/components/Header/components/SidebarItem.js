@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const SidebarItem = ({ Icon, Text }) => {
+  
   return (
     <Container>
       <Icon />
