@@ -5,8 +5,9 @@ import { useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Input from "../Input";
 import useWindowDimensions from "../getWindowDimensions";
+import { BsCart } from "react-icons/bs";
 
-export default function Header() {
+export default function Header({ itensCart }) {
   const auth = useAuth();
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
@@ -30,7 +31,11 @@ export default function Header() {
             <Input />
           </Search>
         )}
-        {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
+        <HeaderRight>
+          {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
+          <BsCart size={"1.5em"} />
+          <span style={{ fontFamily: "Arial" }}>{itensCart}</span>
+        </HeaderRight>
       </HeaderWrapper>
       {width < 998 && (
         <SearchMobile>
@@ -131,4 +136,10 @@ const Test = styled.div`
 
 const A = styled.a`
   padding-left: 8px;
+`;
+
+const HeaderRight = styled.div`
+  display: flex;
+  gap: 18px;
+  align-items: center;
 `;

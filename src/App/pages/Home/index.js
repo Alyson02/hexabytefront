@@ -1,6 +1,6 @@
 import { useAuth } from "context/AuthProvider/useAuth";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Api } from "services/api";
 import useWindowDimensions from "shared/components/getWindowDimensions";
 import Loader from "shared/components/Loader";
@@ -14,6 +14,8 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const { width } = useWindowDimensions();
 
+  const { itensCart, setItensCart } = useOutletContext();
+
   useEffect(() => {
     setLoading(true);
     Api.get(`/?page=${page}`).then((r) => {
@@ -21,6 +23,15 @@ export default function Home() {
       setLoading(false);
     });
   }, [page]);
+
+  function createOrAddCart(id) {
+    setItensCart(itensCart + 1);
+    Api.post("/cart")
+      .then(() => {
+        Api.post("/cart/addproduct", { products: [id] });
+      })
+      .then((x) => console.log(x));
+  }
 
   return (
     <>
@@ -31,7 +42,9 @@ export default function Home() {
             <ImagemProduto src={p.imagemUrl} />
             <TituloProduto>{p.titulo}</TituloProduto>
             <PrecoProduto>R$ {p.preco}</PrecoProduto>
-            <BotaoProduto>COMPRAR</BotaoProduto>
+            <BotaoProduto onClick={() => createOrAddCart(p._id)}>
+              COMPRAR
+            </BotaoProduto>
           </FlexItem>
         ))}
       </FlexContainer>
@@ -53,9 +66,7 @@ const FlexContainer = styled.div`
   grid-gap: 10px;
 `;
 
-const FlexItem = styled.div`
-  flex-grow: 1;
-`;
+const FlexItem = styled.div``;
 
 const ImagemProduto = styled.img`
   max-height: 316px;
