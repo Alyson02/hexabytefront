@@ -3,10 +3,15 @@ import styled from "styled-components";
 import { useContext } from "react";
 import { siteContext } from "context/HomeContext/siteContext";
 const SidebarItem = ({ Icon, Text, fecha }) => {
-  const { categoria, setCategoria , page, setPage, search, setSearch, id, setId} = useContext(siteContext)
+  const { setCategoria } = useContext(siteContext);
 
   return (
-    <Container onClick={() => {setCategoria(Text); fecha() }}>
+    <Container
+      onClick={() => {
+        setCategoria(Text);
+        fecha();
+      }}
+    >
       <Icon />
       {Text}
     </Container>

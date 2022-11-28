@@ -1,30 +1,43 @@
 import React from "react";
-import { FaTimes} from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
 import { sideicons } from "./Sidebaricons";
-import Home from "App/pages/Home";
+import { RiLogoutBoxLine } from "react-icons/ri";
+import { useAuth } from "context/AuthProvider/useAuth";
 import { useNavigate } from "react-router-dom";
-import { siteContext } from "context/HomeContext/siteContext";
-import {useState} from "react";
 
-  const Sidebar = ({ active }) => {
-  const Navigate = useNavigate()
-
-  const icons = sideicons
+const Sidebar = ({ active }) => {
+  const icons = sideicons;
   const closeSidebar = () => {
     active(false);
   };
-
- 
-
-  const navigate = useNavigate();
+  const auth = useAuth();
+  const navigation = useNavigate();
 
   return (
     <Container sidebar={active}>
       <FaTimes onClick={closeSidebar} />
       <Content>
-      {icons.map((icone) => <SidebarItem Text= {icone.name} Icon= {icone.icon} fecha = {closeSidebar}/>)}       
+        {icons.map((icone) => (
+          <SidebarItem
+            Text={icone.name}
+            Icon={icone.icon}
+            fecha={closeSidebar}
+          />
+        ))}
+        <div
+          onClick={() => {
+            auth.logout();
+            navigation("/login");
+          }}
+        >
+          <SidebarItem
+            Text="Sair"
+            Icon={RiLogoutBoxLine}
+            fecha={closeSidebar}
+          />
+        </div>
       </Content>
     </Container>
   );

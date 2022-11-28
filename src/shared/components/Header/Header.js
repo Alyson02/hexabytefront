@@ -11,7 +11,7 @@ import { BsCart } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { ContainerContext } from "../ContainerApp";
 
-export default function Header({ itensCart }) {
+export default function Header() {
   const auth = useAuth();
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
@@ -49,9 +49,11 @@ export default function Header({ itensCart }) {
         <HeaderRight>
           {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
           <BsCart onClick={() => navigate("/cart")} size={"1.5em"} />
-          <span style={{ fontFamily: "Arial" }}>
-            {containerContext.itensCart}
-          </span>
+          {auth.user && (
+            <span style={{ fontFamily: "Arial" }}>
+              {containerContext.itensCart}
+            </span>
+          )}
         </HeaderRight>
       </HeaderWrapper>
       {width < 998 && (

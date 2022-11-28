@@ -41,13 +41,13 @@ export default function Login() {
       .then((res) => {
         setLoading(false);
         navigate("/");
-        console.log(res.data)
+        console.log(res)
       })
       .catch((err) => {
         if (err) {
           swal("Ops", "Usuário ou senha inválidos!", "error");
           setLoading(false);
-          console.log(err)
+          console.log(err, "Erro")
         }
       });
   }

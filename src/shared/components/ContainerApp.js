@@ -11,9 +11,11 @@ export default function ContainerApp() {
   const [itensCart, setItensCart] = useState(0);
 
   useEffect(() => {
-    Api.get("/cart/product").then((r) => {
-      if (r.data instanceof Array) setItensCart(r.data.length);
-    });
+    Api.get("/cart/product")
+      .then((r) => {
+        if (r.data instanceof Array) setItensCart(r.data.length);
+      })
+      .catch(() => {});
   }, []);
 
   return (
