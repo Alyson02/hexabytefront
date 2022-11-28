@@ -15,10 +15,10 @@ export default function Header({ itensCart }) {
   const [sideBar, setSidebar] = useState(false);
   const showSiderbar = () => setSidebar(!sideBar);
   const { width } = useWindowDimensions();
-  const { categoria, search, setSearch } = useContext(siteContext)
+  const { categoria, search, setSearch } = useContext(siteContext);
   const navigate = useNavigate();
 
-  console.log(categoria)
+  console.log(categoria);
   return (
     <Container>
       <HeaderWrapper>
@@ -33,12 +33,15 @@ export default function Header({ itensCart }) {
         </HeaderLeft>
         {width >= 998 && (
           <Search>
-            <FaSearch size={"1.2em"}  />
-            <Input 
-              placeholder = {categoria? `Pesquisar em ${categoria}`: "Pesquisar"} 
+            <FaSearch size={"1.2em"} />
+            <Input
+              placeholder={
+                categoria ? `Pesquisar em ${categoria}` : "Pesquisar"
+              }
               value={search}
-              onChange={ e => setSearch(e.target.value)}
-             Search />
+              onChange={(e) => setSearch(e.target.value)}
+              Search
+            />
           </Search>
         )}
         <HeaderRight>
@@ -49,7 +52,11 @@ export default function Header({ itensCart }) {
       </HeaderWrapper>
       {width < 998 && (
         <SearchMobile>
-          <InputSearchMobile fixPlaceHolder={sideBar}   />
+          <InputSearchMobile
+            fixPlaceHolder={sideBar}
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
         </SearchMobile>
       )}
     </Container>

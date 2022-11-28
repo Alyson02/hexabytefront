@@ -9,7 +9,7 @@ export default function ContainerApp() {
 
   useEffect(() => {
     Api.get("/cart/product").then((r) => {
-      setItensCart(r.data.length);
+      if (r.data instanceof Array) setItensCart(r.data.length);
     });
   }, []);
 

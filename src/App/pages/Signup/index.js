@@ -9,53 +9,57 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import swal from "sweetalert";
 
-
-
 export default function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(false);
   const [textError, setTextError] = useState("");
   const [loadfing, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, formState: { errors }, handleSubmit, watch } =
-    useForm(
-      {
-        mode: 'onSubmit',
-        reValidateMode: 'onChange',
-        defaultValues: {},
-        resolver: undefined,
-        context: undefined,
-        criteriaMode: "firstError | all",
-        shouldFocusError: true,
-        shouldUnregister: false,
-        shouldUseNativeValidation: false,
-        delayError: undefined
-      });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {},
+    resolver: undefined,
+    context: undefined,
+    criteriaMode: "firstError | all",
+    shouldFocusError: true,
+    shouldUnregister: false,
+    shouldUseNativeValidation: false,
+    delayError: undefined,
+  });
+
+  const name = watch("nome", "");
+  const email = watch("email", "");
+  const password = watch("senha", "");
+  const confirmPassword = watch("confirma", "");
 
   const auth = useAuth();
 
   function submit(e) {
-
     if (error) return;
 
     const body = {
       name,
       email,
       password,
-      confirmPassword
-
+      confirmPassword,
     };
-    console.log(error)
+
+    console.log(body);
+    console.log(error);
     setLoading(true);
 
     auth
       .signup(body)
-      .then(() => {
-        swal("", "Cadastro efetuado! Faça Login.", "success")
-        navigate("/");
+      .then((r) => {
+        console.log(r);
+        swal("", "Cadastro efetuado! Faça Login.", "success");
+        navigate("/login");
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -70,62 +74,55 @@ export default function Signup() {
       <Loader loading={loadfing} />
       <TextLogo>Hexabyte</TextLogo>
       <Form onSubmit={handleSubmit(submit)}>
-        <Input onChange={(e) => setName(e.target.value)} placeholder="Nome" 
-        {...register("erronome", {
-          required: "Campo obrigatório"
-        })}
-        err = {errors.erronome}
-        />
-         <ErrorMessage errors={errors} name="erronome" as="p" />
         <Input
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Nome"
+          {...register("nome", {
+            required: "Campo obrigatório",
+          })}
+          err={errors.erronome}
+        />
+        <ErrorMessage errors={errors} name="nome" as="p" />
+        <Input
           placeholder="E-mail"
           {...register("email", {
-            required: 'Campo de email obrigatório',
+            required: "Campo de email obrigatório",
             pattern: {
-                value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                message: 'Favor inserir um email válido',
+              value:
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: "Favor inserir um email válido",
             },
           })}
-          err = {errors.email}
-
+          err={errors.email}
         />
-                      <ErrorMessage errors={errors} name="email" as="p" />
+        <ErrorMessage errors={errors} name="email" as="p" />
 
         <Input
-          onChange={(e) => setPassword(e.target.value) }
           placeholder="Senha"
-          name= "password"
-          {...register("errosenha", {
-            required: "Campo obrigatório"
+          name="password"
+          {...register("senha", {
+            required: "Campo obrigatório",
           })}
           type="password"
-          err = {errors.errosenha}
-
+          err={errors.errosenha}
         />
-                <ErrorMessage errors={errors} name="errosenha" as="p" />
+        <ErrorMessage errors={errors} name="senha" as="p" />
 
         <Input
-          onChange={(e) => {
-            setConfirmPassword(e.target.value);
-          
-          }}
-          {...register("erroconfirma", {
+          {...register("confirma", {
             required: "Campo obrigatório",
             validate: (abc = confirmPassword) => {
-              if (watch("errosenha") != abc) {
+              if (watch("senha") != abc) {
                 return "Senhas não coincidem";
-              }}
+              }
+            },
           })}
           placeholder="Confirme a senha"
           type="password"
-          err = {errors.erroconfirma}
-
+          err={errors.erroconfirma}
         />
-        <ErrorMessage errors={errors} name="erroconfirma" as="p" />
+        <ErrorMessage errors={errors} name="confirma" as="p" />
 
         <Button>Cadastrar</Button>
-
       </Form>
       <CustomLink to={"/"}>Já tem uma conta? Entre agora!</CustomLink>
     </Container>
@@ -170,4 +167,3 @@ const CustomLink = styled(Link)`
   line-height: 18px;
   color: rgb(0 126 255);
 `;
-

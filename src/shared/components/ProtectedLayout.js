@@ -9,7 +9,7 @@ export const ProtectedLayout = ({ children }) => {
   useEffect(() => {
     if (auth.user === undefined || auth.user === null) {
       console.log(auth.user);
-      navigate("/");
+      navigate("/login");
     }
   }, [auth.token]);
 

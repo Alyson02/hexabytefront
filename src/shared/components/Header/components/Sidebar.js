@@ -7,7 +7,6 @@ import Home from "App/pages/Home";
 import { useNavigate } from "react-router-dom";
 import { siteContext } from "context/HomeContext/siteContext";
 import {useState} from "react";
-import { useNavigate } from "react-router-dom";
 
   const Sidebar = ({ active }) => {
   const Navigate = useNavigate()

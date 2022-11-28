@@ -33,6 +33,8 @@ export default function Cart() {
         <Loader />
       ) : produtos.length === 0 ? (
         <H1>Nenhum item no carrinho</H1>
+      ) : produtos === "Abra um carrinho" ? (
+        <H1>Carrinho vazio</H1>
       ) : (
         <Container>
           <ContainerTotal>
@@ -43,7 +45,7 @@ export default function Cart() {
           </ContainerTotal>
           <ProdutoContainer>
             {produtos.map((p) => (
-              <Produto produto={p} remove={remove} />
+              <Produto key={p._id} produto={p} />
             ))}
           </ProdutoContainer>
         </Container>

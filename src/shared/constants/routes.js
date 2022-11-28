@@ -1,7 +1,7 @@
 export default Object.freeze({
   HOME: {
     name: "home",
-    route: "/?page=1",
+    route: "/",
   },
   CART: {
     name: "cart",

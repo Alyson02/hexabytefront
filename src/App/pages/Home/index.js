@@ -8,79 +8,97 @@ import useWindowDimensions from "shared/components/getWindowDimensions";
 import Loader from "shared/components/Loader";
 import styled from "styled-components";
 import Header from "shared/components/Header/Header.js";
+import H1 from "shared/components/H1";
 
 export default function Home() {
   const auth = useAuth();
-  const { categoria, setCategoria , page, setPage, search, setSearch, id, setId} = useContext(siteContext)
+  const {
+    categoria,
+    setCategoria,
+    page,
+    setPage,
+    search,
+    setSearch,
+    id,
+    setId,
+  } = useContext(siteContext);
   const navigate = useNavigate();
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const { width } = useWindowDimensions();
 
-  const { itensCart, setItensCart } = useOutletContext();
+  //const { itensCart, setItensCart } = useOutletContext();
 
   useEffect(() => {
     setLoading(true);
-    if(categoria && categoria != "Home"){
+    if (categoria && categoria != "Home") {
       Api.get(`/?page=${page}&categoria=${categoria}`).then((r) => {
-        console.log(r.data.length)        
+        console.log(r.data.length);
         setProdutos(r.data);
-        console.log(produtos)
+        console.log(r.data);
         setLoading(false);
       });
     }
-    if(categoria && categoria !="Home" && search)
-    Api.get(`/?page=${page}&categoria=${categoria}&search=${search}`).then((r) => {
-      console.log(r.data.length)
-      setProdutos(r.data);
-      console.log(produtos)
-      setLoading(false);
-      
-    });
-    if(categoria == "Home"){
+    if (categoria && categoria != "Home" && search)
+      console.log(`/?page=${page}&categoria=${categoria}&search=${search}`);
+    Api.get(`/?page=${page}&categoria=${categoria}&search=${search}`).then(
+      (r) => {
+        console.log(r.data.length);
+        setProdutos(r.data);
+        console.log(produtos);
+        setLoading(false);
+      }
+    );
+    if (categoria == "Home") {
       Api.get(`/?page=1`).then((r) => {
-        console.log(r.data.length)
+        console.log(r.data.length);
         setLoading(false);
         setProdutos(r.data);
-        setPage(1)
-        setCategoria("")
-        console.log(produtos)
-        
-    })
-  }
-    if(!categoria && !search){
-      Api.get(`/?page=${page}`).then((r) => {
-        setProdutos(r.data)
-        setLoading(false);
-        console.log(r.data.length)
-        
-    }).catch((err) => console.log(err))}
-}, [page, categoria]);
+        setPage(1);
+        setCategoria("");
+        console.log(produtos);
+      });
+    }
+    if (!categoria && !search) {
+      console.log("É aqui mesmo?");
+      console.log(page, "page");
+      Api.get(`/?page=${page}`)
+        .then((r) => {
+          console.log(r, "Aqui krl");
+          setProdutos(r.data);
+          setLoading(false);
+          console.log(r.data.length);
+        })
+        .catch((err) => console.log("Erro"));
+    }
+  }, [page, categoria, search]);
 
   function createOrAddCart(id) {
-    setItensCart(itensCart + 1);
+    //setItensCart(itensCart + 1);
     Api.post("/cart")
+      .then((x) => console.log(x))
       .then(() => {
         Api.post("/cart/addproduct", { products: [id] });
-      })
-      .then((x) => console.log(x));
+      });
   }
 
   return (
     <>
-      <Header/>
+      <Header />
       <Loader loading={loading} />
       <FlexContainer>
-        {produtos.length>0?produtos.map((p) => (
-          <FlexItem w={width} key={p._id}>
-            <ImagemProduto src={p.imagem} />
-            <TituloProduto>{p.titulo}</TituloProduto>
-            <PrecoProduto>R$ {p.valor}</PrecoProduto>
-            <BotaoProduto onClick={() => createOrAddCart(p._id)}>
-              COMPRAR
-            </BotaoProduto>
-          </FlexItem>
-        )): "Não há mais produtos a serem mostrados"}
+        {produtos.length > 0
+          ? produtos.map((p) => (
+              <FlexItem w={width} key={p._id}>
+                <ImagemProduto src={p.imagem} />
+                <TituloProduto>{p.titulo}</TituloProduto>
+                <PrecoProduto>R$ {p.valor}</PrecoProduto>
+                <BotaoProduto onClick={() => createOrAddCart(p._id)}>
+                  COMPRAR
+                </BotaoProduto>
+              </FlexItem>
+            ))
+          : "Não há mais produtos a serem mostrados"}
       </FlexContainer>
       {produtos.length > 0 && (
         <BotaoProximaPagina

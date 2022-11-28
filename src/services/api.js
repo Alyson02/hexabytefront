@@ -2,7 +2,7 @@ import axios from "axios";
 import { getUserLocalStorage } from "../context/AuthProvider/util";
 
 export const Api = axios.create({
-  baseURL: "https://hexabyte.onrender.com/",
+  baseURL: "http://localhost:5000",
 });
 
 Api.interceptors.request.use(
