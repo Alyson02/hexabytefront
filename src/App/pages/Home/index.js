@@ -8,7 +8,6 @@ import useWindowDimensions from "shared/components/getWindowDimensions";
 import Loader from "shared/components/Loader";
 import styled from "styled-components";
 import Header from "shared/components/Header/Header.js";
-import H1 from "shared/components/H1";
 
 export default function Home() {
   const auth = useAuth();
@@ -27,15 +26,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const { width } = useWindowDimensions();
 
-  //const { itensCart, setItensCart } = useOutletContext();
+  const { itensCart, setItensCart } = useOutletContext();
 
   useEffect(() => {
     setLoading(true);
     if (categoria && categoria != "Home") {
       Api.get(`/?page=${page}&categoria=${categoria}`).then((r) => {
-        console.log(r.data.length);
         setProdutos(r.data);
-        console.log(r.data);
         setLoading(false);
       });
     }
@@ -43,38 +40,30 @@ export default function Home() {
       console.log(`/?page=${page}&categoria=${categoria}&search=${search}`);
     Api.get(`/?page=${page}&categoria=${categoria}&search=${search}`).then(
       (r) => {
-        console.log(r.data.length);
         setProdutos(r.data);
-        console.log(produtos);
         setLoading(false);
       }
     );
     if (categoria == "Home") {
       Api.get(`/?page=1`).then((r) => {
-        console.log(r.data.length);
         setLoading(false);
         setProdutos(r.data);
         setPage(1);
         setCategoria("");
-        console.log(produtos);
       });
     }
     if (!categoria && !search) {
-      console.log("É aqui mesmo?");
-      console.log(page, "page");
       Api.get(`/?page=${page}`)
         .then((r) => {
-          console.log(r, "Aqui krl");
           setProdutos(r.data);
           setLoading(false);
-          console.log(r.data.length);
         })
         .catch((err) => console.log("Erro"));
     }
   }, [page, categoria, search]);
 
   function createOrAddCart(id) {
-    //setItensCart(itensCart + 1);
+    setItensCart(itensCart + 1);
     Api.post("/cart")
       .then((x) => console.log(x))
       .then(() => {

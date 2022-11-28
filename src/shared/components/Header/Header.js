@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { siteContext } from "context/HomeContext/siteContext";
 import { BsCart } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { ContainerContext } from "../ContainerApp";
 
 export default function Header({ itensCart }) {
   const auth = useAuth();
@@ -18,7 +19,8 @@ export default function Header({ itensCart }) {
   const { categoria, search, setSearch } = useContext(siteContext);
   const navigate = useNavigate();
 
-  console.log(categoria);
+  const containerContext = useContext(ContainerContext);
+
   return (
     <Container>
       <HeaderWrapper>
@@ -47,7 +49,9 @@ export default function Header({ itensCart }) {
         <HeaderRight>
           {auth.user ? <p>{auth.user.nome}</p> : <p>Login</p>}
           <BsCart onClick={() => navigate("/cart")} size={"1.5em"} />
-          <span style={{ fontFamily: "Arial" }}>{itensCart}</span>
+          <span style={{ fontFamily: "Arial" }}>
+            {containerContext.itensCart}
+          </span>
         </HeaderRight>
       </HeaderWrapper>
       {width < 998 && (

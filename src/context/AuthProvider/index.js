@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   function authenticate(email, password) {
     const response = LoginRequest(email, password).then((r) => {
-      console.log(r.data);
+      console.log(r);
       const payload = r.data;
       setUser(payload);
       setUserLocalStorage(payload);

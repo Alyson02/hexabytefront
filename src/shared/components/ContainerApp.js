@@ -1,8 +1,11 @@
+import { createContext } from "react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Api } from "services/api";
 import styled from "styled-components";
 import Header from "./Header/Header";
+
+export const ContainerContext = createContext();
 
 export default function ContainerApp() {
   const [itensCart, setItensCart] = useState(0);
@@ -14,12 +17,12 @@ export default function ContainerApp() {
   }, []);
 
   return (
-    <>
-      <Header itensCart={itensCart} />
+    <ContainerContext.Provider value={{ itensCart }}>
+      <Header />
       <DivApp>
         <Outlet context={{ itensCart, setItensCart }} />
       </DivApp>
-    </>
+    </ContainerContext.Provider>
   );
 }
 

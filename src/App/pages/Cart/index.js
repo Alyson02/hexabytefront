@@ -45,7 +45,7 @@ export default function Cart() {
           </ContainerTotal>
           <ProdutoContainer>
             {produtos.map((p) => (
-              <Produto key={p._id} produto={p} />
+              <Produto key={p._id} produto={p} remove={remove} />
             ))}
           </ProdutoContainer>
         </Container>

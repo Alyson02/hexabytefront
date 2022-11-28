@@ -33,7 +33,7 @@ export default function Signup() {
     delayError: undefined,
   });
 
-  const name = watch("nome", "");
+  const nome = watch("nome", "");
   const email = watch("email", "");
   const password = watch("senha", "");
   const confirmPassword = watch("confirma", "");
@@ -44,10 +44,9 @@ export default function Signup() {
     if (error) return;
 
     const body = {
-      name,
+      nome,
       email,
       password,
-      confirmPassword,
     };
 
     console.log(body);
